@@ -1,5 +1,8 @@
 import upland
+import os
 from datetime import date
+
+homedir = os.path.expanduser('~')
 
 headers = {'user-agent': 'HeatMaps/1.0'}
 
@@ -109,7 +112,7 @@ canvas.set_source_rgb(0, 0, 0)
 canvas.set_font_size(100)
 canvas.move_to(75, 75)
 canvas.show_text(city)
-surface.write_to_png('~/maps/' + city + ' ' + today.strftime('%d-%b') + '.png')
+surface.write_to_png(homedir + '/maps/' + city + ' ' + today.strftime('%d-%b') + '.png')
 
 data = upland.makeCanvas(neighbourhoodPolys)
 surface = data[0]
@@ -128,4 +131,4 @@ canvas.set_source_rgb(0, 0, 0)
 canvas.set_font_size(100)
 canvas.move_to(75, 75)
 canvas.show_text(city + ' (Non-FSA Only)')
-surface.write_to_png('~/maps/' + city + ' Non-FSA ' + today.strftime('%d-%b') + '.png')
+surface.write_to_png(homedir + '/maps/' + city + ' Non-FSA ' + today.strftime('%d-%b') + '.png')
