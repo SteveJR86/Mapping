@@ -1,6 +1,6 @@
 import xlsxwriter
 from datetime import date
-import upland
+import Upland.upland as upland
 import os
 
 headers = {'user-agent': 'HeatMap/1.1'}

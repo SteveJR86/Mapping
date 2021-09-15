@@ -8,7 +8,7 @@ from shapely.geometry import Polygon
 from datetime import date
 from time import sleep
 
-import upland
+import Upland.upland as upland
 
 def main():
   headers = {'user-agent': 'MapApp/1.1'}
