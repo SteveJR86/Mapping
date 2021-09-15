@@ -1,12 +1,14 @@
 import upland
 import os
+import sys
 from datetime import date
+
 
 homedir = os.path.expanduser('~')
 
 headers = {'user-agent': 'HeatMaps/1.0'}
 
-city = ('Kansas')
+city = sys.argv[1]
 
 neighbourhoodsProperties = upland.getNeighbourhoodProperties(headers, city)
 

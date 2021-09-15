@@ -1,5 +1,6 @@
 import csv
 import os
+import sys
 from time import sleep
 import cairo
 import json
@@ -8,7 +9,7 @@ import xlsxwriter
 from shapely.geometry import Point
 from shapely.geometry import Polygon
 from datetime import date
-import upland
+import upland.upland as upland
 
 def main():
   headers = {'user-agent': 'MapApp/1.1'}
@@ -19,14 +20,16 @@ def main():
 
   mapHeight = 3000
   propData = {}
-  neighbourhood = "Woodward Park"
-  city = "Fresno"
+##  neighbourhood = sys.argv[1]
+##  city = sys.argv[2]
+  neighbourhood = "midtown terrace"
+  city = "San Franscisco"
   filename = homedir + '/maps/' + neighbourhood + " - " + city + " - Building Progress"
-  
+
   properties = upland.getNeighbourhoodProperties(headers, city, neighbourhood)
   neighbourhoodPoly = upland.getNeighbourhoodPoly(headers, city, neighbourhood)
-  props = properties[0]   
-  
+  props = properties[0]
+
   canvas2 = upland.makeCanvas(neighbourhoodPoly)
   surface = canvas2[0]
   canvas = canvas2[1]
