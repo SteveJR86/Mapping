@@ -37,7 +37,10 @@ def main():
   inProgressProps = 0
   for prop in props:
     propBound = json.loads(prop['boundaries'])
-    propPoly = Polygon(propBound['coordinates'][0])
+    try:
+      propPoly = Polygon(propBound['coordinates'][0])
+    except:
+      propPoly = Polygon(propBound['coordinates'][0][0])
     if prop['status'] == 'Owned':
       try:
         propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)

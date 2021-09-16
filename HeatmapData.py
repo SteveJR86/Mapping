@@ -16,8 +16,8 @@ for neighbourhood in neighbourhoods:
 
 for neighbourhoodID, details in tableData.items():
   props = upland.getNeighbourhoodProperties(headers, searchCity, details['neighbourhood_name'])
-  tableData[neighbourhoodID]['data']['total_properties'] = len(props[0])
-  tableData[neighbourhoodID]['data']['total_unlocked_properties'] = len(props[0])
+  tableData[neighbourhoodID]['data']['total_properties'] = len(props)
+  tableData[neighbourhoodID]['data']['total_unlocked_properties'] = len(props)
   for prop in props:
     if prop['status'] == 'Owned':
       tableData[neighbourhoodID]['data']['owned_properties'] += 1
