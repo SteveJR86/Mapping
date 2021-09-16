@@ -6,7 +6,7 @@ import os
 headers = {'user-agent': 'HeatMap/1.1'}
 homedir = os.path.expanduser('~')
 
-searchCity = 'Chicago'
+searchCity = 'Kansas'
 tableData = {}
 
 neighbourhoods = upland.getNeighbourhood(headers, searchCity)

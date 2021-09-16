@@ -68,7 +68,7 @@ def main():
       canvas.stroke()
   canvas.set_font_size(100)
   canvas.move_to(75, 75)
-  canvas.show_text(f'{neighbourhood}, {city}: {builtProps/len(props)}% Developed')
+  canvas.show_text(f'{neighbourhood}, {city}: {(builtProps/len(props))*100:.0f}% Developed')
   today = date.today()
   surface.write_to_png(filename + ' ' + today.strftime('%d-%b') + '.png')
 
