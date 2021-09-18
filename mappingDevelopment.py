@@ -21,7 +21,7 @@ def main():
   city = sys.argv[2]
 ##  neighbourhood = "midtown terrace"
 ##  city = "San Francisco"
-  filename = homedir + '/maps/' + neighbourhood + " - " + city + " - Building Progress"
+  filename = homedir + '/maps/NeighbourhoodDevelopment/' + neighbourhood + " - " + city + " - Building Progress"
 
   props = upland.getNeighbourhoodProperties(headers, city, neighbourhood)
   neighbourhoodPoly = upland.getNeighbourhoodPoly(headers, city, neighbourhood)
