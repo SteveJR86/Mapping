@@ -18,7 +18,7 @@ for properties in neighbourhoodsProperties:
   properties[:] = [x for x in properties if not x['status'] == "Locked"]
   propsUndeveloped = 0
   for prop in properties:
-    if prop['model'] == []:
+    if prop['models'] == []:
       propsUndeveloped += 1
   try:
     percentUndeveloped = propsUndeveloped/len(properties)
@@ -69,6 +69,6 @@ for num, neighbourhoodPoly in enumerate(neighbourhoodPolys):
 today = date.today()
 canvas.set_source_rgb(0, 0, 0)
 canvas.set_font_size(100)
-canvas.move_to(60, 60)
+canvas.move_to(75, 75)
 canvas.show_text(city)
 surface.write_to_png(homedir + '/maps/DevelopmentHeatmaps/' + city + ' ' + today.strftime('%d-%b') + '.png')

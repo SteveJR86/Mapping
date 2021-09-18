@@ -112,7 +112,7 @@ for num, neighbourhoodPoly in enumerate(neighbourhoodPolys):
 today = date.today()
 canvas.set_source_rgb(0, 0, 0)
 canvas.set_font_size(100)
-canvas.move_to(60, 60)
+canvas.move_to(75, 75)
 canvas.show_text(city)
 surface.write_to_png(homedir + '/maps/Heatmaps/' + city + ' ' + today.strftime('%d-%b') + '.png')
 
