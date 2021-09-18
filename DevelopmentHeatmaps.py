@@ -27,27 +27,27 @@ for properties in neighbourhoodsProperties:
 
   if percentUndeveloped == None:
     fillColours.append((1, 1, 1))
-  elif percentUndeveloped >= 0.9:
+  elif percentUndeveloped >= 0.98:
     fillColours.append((0, 1, 0.364705882352941))
-  elif percentUndeveloped >= 0.8 and percentUndeveloped < 0.9:
+  elif percentUndeveloped >= 0.96 and percentUndeveloped < 0.98:
     fillColours.append((0.411764705882353, 0.933333333333333, 0.137254901960784))
-  elif percentUndeveloped >= 0.7 and percentUndeveloped < 0.8:
+  elif percentUndeveloped >= 0.94 and percentUndeveloped < 0.96:
     fillColours.append((0.56078431372549, 0.866666666666667, 0))
-  elif percentUndeveloped >= 0.6 and percentUndeveloped < 0.7:
+  elif percentUndeveloped >= 0.92 and percentUndeveloped < 0.94:
     fillColours.append((0.674509803921569, 0.792156862745098, 0))
-  elif percentUndeveloped >= 0.5 and percentUndeveloped < 0.6:
+  elif percentUndeveloped >= 0.90 and percentUndeveloped < 0.92:
     fillColours.append((0.764705882352941, 0.713725490196079, 0))
-  elif percentUndeveloped >= 0.4 and percentUndeveloped < 0.5:
+  elif percentUndeveloped >= 0.88 and percentUndeveloped < 0.90:
     fillColours.append((0.83921568627451, 0.627450980392157, 0))
-  elif percentUndeveloped >= 0.3 and percentUndeveloped < 0.4:
+  elif percentUndeveloped >= 0.86 and percentUndeveloped < 0.88:
     fillColours.append((0.901960784313726, 0.529411764705882, 0))
-  elif percentUndeveloped >= 0.2 and percentUndeveloped < 0.3:
+  elif percentUndeveloped >= 0.84 and percentUndeveloped < 0.86:
     fillColours.append((0.949019607843137, 0.419607843137255, 0))
-  elif percentUndeveloped >= 0.1 and percentUndeveloped < 0.2:
+  elif percentUndeveloped >= 0.82 and percentUndeveloped < 0.84:
     fillColours.append((0.984313725490196, 0.282352941176471, 0))
-  elif percentUndeveloped > 0 and percentUndeveloped < 0.1:
+  elif percentUndeveloped > 0.80 and percentUndeveloped < 0.82:
     fillColours.append((1, 0, 0))
-  elif percentUndeveloped == 0:
+  elif percentUndeveloped <= 0.80:
     fillColours.append((0, 0, 0))
   else:
     fillColours.append((0, 0, 0))
