@@ -2,11 +2,12 @@ import xlsxwriter
 from datetime import date
 import Upland.upland as upland
 import os
+import sys
 
 headers = {'user-agent': 'HeatMap/1.1'}
 homedir = os.path.expanduser('~')
 
-searchCity = 'Kansas'
+searchCity = sys.argv[1]
 tableData = {}
 
 neighbourhoods = upland.getNeighbourhood(headers, searchCity)
