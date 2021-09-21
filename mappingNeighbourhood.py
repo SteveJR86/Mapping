@@ -110,8 +110,8 @@ def main():
       propPoly = Polygon(propBound['coordinates'][0])
     except:
       propPoly = Polygon(propBound['coordinates'][0][0])
-##    if mode == 3:
-##      propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
+    if mode == 3:
+      propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
 ##    coords = json.loads(prop['boundaries'])
 ##    centrePoint = Point(float(prop['centerlng']), float(prop['centerlat']))
 ##    if centrePoint.within(neighbourhoodPoly):
