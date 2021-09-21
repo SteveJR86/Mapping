@@ -12,7 +12,7 @@ from time import sleep
 import Upland.upland as upland
 
 def main():
-  headers = {'user-agent': 'OwnershipMap/2.0'}
+  headers = {'user-agent': 'OwnershipMap/1.0'}
 
   # parameters to set up depending on what is required:
   # Mode should be set to 1 for Neighbourhood plot, 2 for Area plot
@@ -104,7 +104,7 @@ def main():
     upland.plotObject(canvas, mapFactor, neighbourhoodPoly, neighbourhoodPoly.bounds[0], neighbourhoodPoly.bounds[3])
   
   for num, prop in enumerate(props, start=1):
-    print(num)
+    print(f'{((num/len(props))*100):.2f}% Complete')
     propBound = json.loads(prop['boundaries'])
     try:
       propPoly = Polygon(propBound['coordinates'][0])
