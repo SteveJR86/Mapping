@@ -12,7 +12,7 @@ from time import sleep
 import Upland.upland as upland
 
 def main():
-  headers = {'user-agent': 'MapApp/1.1'}
+  headers = {'user-agent': 'OwnershipMap/2.0'}
 
   # parameters to set up depending on what is required:
   # Mode should be set to 1 for Neighbourhood plot, 2 for Area plot
@@ -103,7 +103,8 @@ def main():
   if mode == 1:
     upland.plotObject(canvas, mapFactor, neighbourhoodPoly, neighbourhoodPoly.bounds[0], neighbourhoodPoly.bounds[3])
   
-  for prop in props:
+  for num, prop in enumerate(props, start=1):
+    print(num)
     propBound = json.loads(prop['boundaries'])
     try:
       propPoly = Polygon(propBound['coordinates'][0])
@@ -119,11 +120,7 @@ def main():
       if prop['status'] == 'Owned' :
         users['Total']['Total Owned Properties'] += 1
         if mode == 1 or mode ==2:
-          try:
-            propDetails = upland.getPropertyDetails(headers, prop['prop_id'])
-          except:
-            sleep(1)
-            propDetails = upland.getPropertyDetails(headers, prop['prop_id'])
+          propDetails = upland.getPropertyDetails(headers, prop['prop_id'])
         if propDetails['owner_username'] in users:
           users[propDetails['owner_username']]['data']['Properties Owned'] += 1
           users[propDetails['owner_username']]['data']['Total Up2'] += propDetails['area']
