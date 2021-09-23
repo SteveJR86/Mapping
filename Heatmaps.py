@@ -107,6 +107,9 @@ maxLong = data[4]
 canvas.set_line_width(4)
 
 for num, neighbourhoodPoly in enumerate(neighbourhoodPolys):
+  for nbdPoly in neighbourhoodPolys:
+    if neighbourhoodPoly != nbdPoly and neighbourhoodPoly.contains(nbdPoly):
+      neighbourhoodPoly = neighbourhoodPoly.difference(nbdPoly)
   upland.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, fillColours[num])
 
 today = date.today()
@@ -126,6 +129,9 @@ maxLong = data[4]
 canvas.set_line_width(4)
 
 for num, neighbourhoodPoly in enumerate(neighbourhoodPolys):
+  for nbdPoly in neighbourhoodPolys:
+    if neighbourhoodPoly != nbdPoly and neighbourhoodPoly.contains(nbdPoly):
+      neighbourhoodPoly = neighbourhoodPoly.difference(nbdPoly)
   upland.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, nonFsaFillColours[num])
 
 today = date.today()
