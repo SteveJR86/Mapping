@@ -62,7 +62,10 @@ for neighbourhoodData in tableData.values():
     worksheet.write(row, col, data)
     if not col == 1:
       col += 1
-      worksheet.write(row, col, '=INDIRECT("R[0]C[-1]", FALSE())/INDIRECT("R[0]C[-' + str(col-1) + ']", FALSE() * 100)', percentage_format)
+      if col == 4:
+        worksheet.write(row, col, '=INDIRECT("R[0]C[-1]", FALSE())/INDIRECT("R[0]C[-' + str(col-2) + ']", FALSE() * 100)', percentage_format)
+      else:
+        worksheet.write(row, col, '=INDIRECT("R[0]C[-1]", FALSE())/INDIRECT("R[0]C[-' + str(col-1) + ']", FALSE() * 100)', percentage_format)
   row += 1
 
 workbook.close()

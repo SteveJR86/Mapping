@@ -19,11 +19,13 @@ def main():
   propData = {}
   neighbourhood = sys.argv[1]
   city = sys.argv[2]
-##  neighbourhood = "midtown terrace"
+##  neighbourhood = "alamo square"
 ##  city = "San Francisco"
   filename = homedir + '/maps/NeighbourhoodDevelopment/' + neighbourhood + " - " + city + " - Building Progress"
 
   props = upland.getNeighbourhoodProperties(headers, city, neighbourhood)
+  props = props[0]
+  print(len(props))
   neighbourhoodPoly = upland.getNeighbourhoodPoly(headers, city, neighbourhood)
   canvas2 = upland.makeCanvas(neighbourhoodPoly)
   surface = canvas2[0]
@@ -31,22 +33,13 @@ def main():
   mapFactor = canvas2[2]
   minLat = canvas2[3]
   maxLong = canvas2[4]
-  neighbourhoodPoly = neighbourhoodPoly[0]
-
+ 
   builtProps = 0
   inProgressProps = 0
   for prop in props:
-    propBound = json.loads(prop['boundaries'])
-    try:
-      propPoly = Polygon(propBound['coordinates'][0])
-    except:
-      propPoly = Polygon(propBound['coordinates'][0][0])
+    propPoly = upland.makePoly(prop['boundaries'])
     if prop['status'] == 'Owned':
-      try:
-        propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
-      except:
-        sleep(1)
-        propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
+      propDetails = upland.getPropertyDetails(headers, prop['prop_id'])      
       if propDetails['building'] == None:
         upland.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
       elif propDetails['building']['constructionStatus'] == 'completed':

@@ -33,7 +33,7 @@ def main():
 
   homedir = os.path.expanduser('~')
   filepath = homedir + '/maps/NeighbourhoodMaps/'
-  configFilename = 'Portage Park - BoscoWashington - Sheet1'
+  configFilename = 'School - Uplando - Sheet1'
   configFile = filepath + '/ConfigFiles/' + configFilename + '.csv'
   filename = configFilename[:-9]
   with open(configFile, newline='') as csvfile:
@@ -80,6 +80,7 @@ def main():
   totalOwnedProperties = 0
   if mode == 1:
     props = upland.getNeighbourhoodProperties(headers, city, neighbourhood)
+    props = props[0]
     neighbourhoodPoly = upland.getNeighbourhoodPoly(headers, city, neighbourhood)
   elif mode == 2 or mode == 3:
     propCoordinates = []
@@ -105,11 +106,7 @@ def main():
   
   for num, prop in enumerate(props, start=1):
     print(f'{((num/len(props))*100):.2f}% Complete')
-    propBound = json.loads(prop['boundaries'])
-    try:
-      propPoly = Polygon(propBound['coordinates'][0])
-    except:
-      propPoly = Polygon(propBound['coordinates'][0][0])
+    propPoly = upland.makePoly(prop['boundaries'])
     if mode == 3:
       propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
 ##    coords = json.loads(prop['boundaries'])
