@@ -20,6 +20,7 @@ def main():
   for neighbourhoodID, details in tableData.items():
     props = upland.getNeighbourhoodProperties(headers, searchCity, details['neighbourhood name'])
     if not len(props) == 0:
+      props = props[0]
       for prop in props:
         if not prop['status'] == 'Locked':
           break

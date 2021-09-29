@@ -17,6 +17,7 @@ for neighbourhood in neighbourhoods:
 
 for neighbourhoodID, details in tableData.items():
   props = upland.getNeighbourhoodProperties(headers, searchCity, details['neighbourhood name'])
+  props = props[0]
   tableData[neighbourhoodID]['data']['total properties'] = len(props)
   for prop in props:
     if prop['labels']['fsa_allow']:

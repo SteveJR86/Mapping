@@ -22,10 +22,10 @@ def main():
 ##  neighbourhood = "alamo square"
 ##  city = "San Francisco"
   filename = homedir + '/maps/NeighbourhoodDevelopment/' + neighbourhood + " - " + city + " - Building Progress"
-
-  props = upland.getNeighbourhoodProperties(headers, city, neighbourhood)
+  models = True
+  
+  props = upland.getNeighbourhoodProperties(headers, city, neighbourhood, models)
   props = props[0]
-  print(len(props))
   neighbourhoodPoly = upland.getNeighbourhoodPoly(headers, city, neighbourhood)
   canvas2 = upland.makeCanvas(neighbourhoodPoly)
   surface = canvas2[0]
@@ -36,23 +36,27 @@ def main():
  
   builtProps = 0
   inProgressProps = 0
+  score = 0
   for prop in props:
     propPoly = upland.makePoly(prop['boundaries'])
-    if prop['status'] == 'Owned':
-      propDetails = upland.getPropertyDetails(headers, prop['prop_id'])      
-      if propDetails['building'] == None:
+    if prop['status'] == 'Owned':      
+      if len(prop['models']) == 0:
         upland.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
-      elif propDetails['building']['constructionStatus'] == 'completed':
+      elif prop['models'][0]['constructionStatus'] == 'completed':
         upland.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (0, 1, 0.15))
         builtProps += 1
-      elif propDetails['building']['constructionStatus'] == 'processing' or propDetails['building']['constructionStatus'] == 'can-watch-ceremony':
+        score += prop['models'][0]['options']['score']
+      elif prop['models'][0]['constructionStatus'] == 'processing' or prop['models'][0]['constructionStatus'] == 'can-watch-ceremony':
         upland.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 0))
         inProgressProps += 1
+        score += prop['models'][0]['options']['score']
     else:
       upland.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
   canvas.set_font_size(100)
   canvas.move_to(75, 75)
   canvas.show_text(f'{neighbourhood}, {city}: {(builtProps/len(props))*100:.0f}% Developed')
+  canvas.move_to(75, 160)
+  canvas.show_text(f'{builtProps} Completed, {inProgressProps} In Progress, "Score": {score}')
   today = date.today()
   surface.write_to_png(filename + ' ' + today.strftime('%d-%b') + '.png')
 

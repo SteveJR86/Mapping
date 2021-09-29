@@ -10,7 +10,7 @@ headers = {'user-agent': 'HeatMaps/1.0'}
 
 city = sys.argv[1]
 
-neighbourhoodsProperties = upland.getNeighbourhoodProperties(headers, city)
+neighbourhoodsProperties = upland.getNeighbourhoodProperties(headers, city,None,True)
 
 fillColours = []
 
