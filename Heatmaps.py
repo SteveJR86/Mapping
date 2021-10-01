@@ -1,4 +1,5 @@
 import Upland.upland as upland
+import Upland.plotting as plotting
 import os
 import sys
 from datetime import date
@@ -96,7 +97,7 @@ for properties in neighbourhoodsProperties:
     nonFsaFillColours.append((0, 0, 0))
 neighbourhoodPolys = upland.getNeighbourhoodPoly(headers, city)
 
-data = upland.makeCanvas(neighbourhoodPolys)
+data = plotting.makeCanvas(neighbourhoodPolys)
 surface = data[0]
 canvas = data[1]
 mapFactor = data[2]
@@ -110,7 +111,7 @@ for num, neighbourhoodPoly in enumerate(neighbourhoodPolys):
 ##  for nbdPoly in neighbourhoodPolys:
 ##    if neighbourhoodPoly != nbdPoly and neighbourhoodPoly.contains(nbdPoly):
 ##      neighbourhoodPoly = neighbourhoodPoly.difference(nbdPoly)
-  upland.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, fillColours[num])
+  plotting.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, fillColours[num])
 
 today = date.today()
 canvas.set_source_rgb(0, 0, 0)
@@ -119,7 +120,7 @@ canvas.move_to(75, 75)
 canvas.show_text(city)
 surface.write_to_png(homedir + '/maps/Heatmaps/' + city + ' ' + today.strftime('%d-%b') + '.png')
 
-data = upland.makeCanvas(neighbourhoodPolys)
+data = plotting.makeCanvas(neighbourhoodPolys)
 surface = data[0]
 canvas = data[1]
 mapFactor = data[2]
@@ -132,7 +133,7 @@ for num, neighbourhoodPoly in enumerate(neighbourhoodPolys):
 ##  for nbdPoly in neighbourhoodPolys:
 ##    if neighbourhoodPoly != nbdPoly and neighbourhoodPoly.contains(nbdPoly):
 ##      neighbourhoodPoly = neighbourhoodPoly.difference(nbdPoly)
-  upland.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, nonFsaFillColours[num])
+  plotting.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, nonFsaFillColours[num])
 
 today = date.today()
 canvas.set_source_rgb(0, 0, 0)

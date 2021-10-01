@@ -10,6 +10,7 @@ from datetime import date
 from time import sleep
 
 import Upland.upland as upland
+import Upland.plotting as plotting
 
 def main():
   headers = {'user-agent': 'OwnershipMap/1.0'}
@@ -94,7 +95,7 @@ def main():
             (max(propCoordinates, key=lambda x: x[0])[0], min(propCoordinates, key=lambda x: x[1])[1])]))
     props = upland.getProperties(headers, neighbourhoodPoly[0])
 
-  canvas2 = upland.makeCanvas(neighbourhoodPoly)
+  canvas2 = plotting.makeCanvas(neighbourhoodPoly)
   surface = canvas2[0]
   canvas = canvas2[1]
   mapFactor = canvas2[2]
@@ -102,7 +103,7 @@ def main():
   maxLong = canvas2[4]
   neighbourhoodPoly = neighbourhoodPoly[0]
   if mode == 1:
-    upland.plotObject(canvas, mapFactor, neighbourhoodPoly, neighbourhoodPoly.bounds[0], neighbourhoodPoly.bounds[3])
+    plotting.plotObject(canvas, mapFactor, neighbourhoodPoly, neighbourhoodPoly.bounds[0], neighbourhoodPoly.bounds[3])
   
   for num, prop in enumerate(props, start=1):
     print(f'{((num/len(props))*100):.2f}% Complete')
@@ -152,7 +153,7 @@ def main():
         fillColour = (nonFSAColour[0], nonFSAColour[1], nonFSAColour[2])
       else:
         fillColour = (0, 0, 0)
-      upland.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, fillColour)
+      plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, fillColour)
 
   today = date.today()
   surface.write_to_png(filepath + filename + ' ' + today.strftime('%d-%b') + '.png')

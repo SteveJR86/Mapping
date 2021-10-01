@@ -1,4 +1,5 @@
 import Upland.upland as upland
+import Upland.upland as plotting
 import os
 import sys
 from datetime import date
@@ -54,7 +55,7 @@ for properties in neighbourhoodsProperties:
 
 neighbourhoodPolys = upland.getNeighbourhoodPoly(headers, city)
 
-data = upland.makeCanvas(neighbourhoodPolys)
+data = plotting.makeCanvas(neighbourhoodPolys)
 surface = data[0]
 canvas = data[1]
 mapFactor = data[2]
@@ -64,7 +65,7 @@ maxLong = data[4]
 canvas.set_line_width(4)
 
 for num, neighbourhoodPoly in enumerate(neighbourhoodPolys):
-  upland.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, fillColours[num])
+  plotting.plotObject(canvas, mapFactor, neighbourhoodPoly, minLat, maxLong, fillColours[num])
 
 today = date.today()
 canvas.set_source_rgb(0, 0, 0)
