@@ -52,7 +52,6 @@ for properties in neighbourhoodsProperties:
     fillColours.append((0, 0, 0))
   else:
     fillColours.append((0, 0, 0))
-
 nonFsaFillColours = []
 
 for properties in neighbourhoodsProperties:
