@@ -34,7 +34,9 @@ def main():
   mapFactor = canvas2[2]
   minLat = canvas2[3]
   maxLong = canvas2[4]
- 
+
+  plotting.plotObject(canvas, mapFactor, neighbourhoodPoly[0], minLat, maxLong)
+
   builtProps = 0
   inProgressProps = 0
   score = 0

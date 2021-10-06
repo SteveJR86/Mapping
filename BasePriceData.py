@@ -64,14 +64,17 @@ def calculateBasePrice(headers, prop):
   collections = upland.matchCollections(headers, prop['prop_id'])
   for collection in collections:
     collectionLevels.append(collection['category'])
-  if max(collectionLevels) == 5:
-    basePrice = price/21
-  elif max(collectionLevels) == 4:
-    basePrice = price/11
-  elif max(collectionLevels) == 3:
-    basePrice = price/3
-  elif max(collectionLevels) == 2:
-    basePrice = price/1.5
+  if collectionLevels:
+    if max(collectionLevels) == 5:
+      basePrice = price/21
+    elif max(collectionLevels) == 4:
+      basePrice = price/11
+    elif max(collectionLevels) == 3:
+      basePrice = price/3
+    elif max(collectionLevels) == 2:
+      basePrice = price/1.5
+    else:
+      basePrice = price
   else:
     basePrice = price
   return basePrice

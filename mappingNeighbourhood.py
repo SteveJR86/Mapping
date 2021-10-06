@@ -31,10 +31,11 @@ def main():
   users['Total']['Non-FSA Unminted'] = 0
   users['Total']['Owned By Others'] = 0
   users['Total']['For Sale'] = 0
+  users['Total']['Locked'] = 0
 
   homedir = os.path.expanduser('~')
   filepath = homedir + '/maps/NeighbourhoodMaps/'
-  configFilename = 'School - Uplando - Sheet1'
+  configFilename = 'Blue Ridge Farm - Sheepminer - Coded - Sheet1'
   configFile = filepath + '/ConfigFiles/' + configFilename + '.csv'
   filename = configFilename[:-9]
   with open(configFile, newline='') as csvfile:
@@ -61,6 +62,8 @@ def main():
           ownedByOthers = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
         elif row[2] == 'For Sale by Others':
           forSaleColour = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
+        elif row[2] == 'Locked':
+          lockedColour = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
         elif not row[2] == '':
           username = row[2].lower()
           users[username] = {}
@@ -110,9 +113,6 @@ def main():
     propPoly = upland.makePoly(prop['boundaries'])
     if mode == 3:
       propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
-##    coords = json.loads(prop['boundaries'])
-##    centrePoint = Point(float(prop['centerlng']), float(prop['centerlat']))
-##    if centrePoint.within(neighbourhoodPoly):
     if mode == 1 or mode == 2 or (mode == 3 and propDetails['full_address'].split(' ', 1)[1] == street.upper()):
       users['Total']['Total Properties'] += 1        
       if prop['status'] == 'Owned' :
@@ -141,6 +141,16 @@ def main():
           propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
         if propDetails['owner_username'] in users:
           users[propDetails['owner_username']]['data']['Properties Owned'] += 1
+          users[propDetails['owner_username']]['data']['Total Up2'] += propDetails['area']
+          if users[propDetails['owner_username']]['data']['Min Up2'] == None:
+            users[propDetails['owner_username']]['data']['Min Up2'] = propDetails['area']
+          else:
+            users[propDetails['owner_username']]['data']['Min Up2'] = min(users[propDetails['owner_username']]['data']['Min Up2'], propDetails['area'])
+          if users[propDetails['owner_username']]['data']['Max Up2'] == None:
+            users[propDetails['owner_username']]['data']['Max Up2'] = propDetails['area']
+          else:
+            users[propDetails['owner_username']]['data']['Max Up2'] = max(users[propDetails['owner_username']]['data']['Max Up2'], propDetails['area'])
+          users[propDetails['owner_username']]['data']['Total Price Paid'] += propDetails['last_purchased_price']
           fillColour = (users[propDetails['owner_username']]['colour'][0], users[propDetails['owner_username']]['colour'][1], users[propDetails['owner_username']]['colour'][2])
         else:
           users['Total']['For Sale'] += 1
@@ -151,6 +161,9 @@ def main():
       elif prop['status'] == "Unlocked" and prop['labels']['fsa_allow'] == False:
         users['Total']['Non-FSA Unminted'] +=1
         fillColour = (nonFSAColour[0], nonFSAColour[1], nonFSAColour[2])
+      elif prop['status'] == "Locked":
+        users['Total']['Locked'] += 1
+        fillColour = (lockedColour[0], lockedColour[1], lockedColour[2])
       else:
         fillColour = (0, 0, 0)
       plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, fillColour)
