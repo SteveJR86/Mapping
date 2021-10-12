@@ -12,7 +12,7 @@ headers = {'user-agent': 'HeatMaps/2.0'}
 city = sys.argv[1]
 
 keyPositions = {
-  "San Francisco": "BottomRight",
+  "San Francisco": "TopLeft",
   "Manhatten": "BottomRight",
   "Brooklyn": "BottomRight",
   "Fresno": "BottomRight",
