@@ -50,6 +50,7 @@ for properties in neighbourhoodsProperties:
       except:
         pass
       
+  print(propsDeveloped, devScore)
   try:
     percentDeveloped = propsDeveloped/len(properties)
   except:
@@ -95,22 +96,22 @@ for properties in neighbourhoodsProperties:
   elif propsDeveloped <= 20 and propsDeveloped > 5:
     pdfillColours.append((0.411764705882353, 0.933333333333333, 0.137254901960784))
     pdcbfillColours.append((0.337254901960784, 0.705882352941177, 0.913725490196078))
-  elif propsDeveloped <= 40 and propsDeveloped > 20:
+  elif propsDeveloped <= 60 and propsDeveloped > 20:
     pdfillColours.append((0.56078431372549, 0.866666666666667, 0))
     pdcbfillColours.append((0, 0.619607843137255, 0.450980392156863))
-  elif propsDeveloped <= 60 and propsDeveloped > 40:
+  elif propsDeveloped <= 100 and propsDeveloped > 60:
     pdfillColours.append((0.764705882352941, 0.713725490196079, 0))
     pdcbfillColours.append((0.941176470588235, 0.894117647058824, 0.258823529411765))
-  elif propsDeveloped <= 80 and propsDeveloped > 60:
+  elif propsDeveloped <= 200 and propsDeveloped > 100:
     pdfillColours.append((0.901960784313726, 0.529411764705882, 0))
     pdcbfillColours.append((0, 0.447058823529412, 0.698039215686275))
-  elif propsDeveloped <= 100 and propsDeveloped > 80:
+  elif propsDeveloped <= 400 and propsDeveloped > 200:
     pdfillColours.append((0.984313725490196, 0.282352941176471, 0))
     pdcbfillColours.append((0.835294117647059, 0.368627450980392, 0))
-  elif propsDeveloped <= 150 and propsDeveloped > 100:
+  elif propsDeveloped <= 600 and propsDeveloped > 400:
     pdfillColours.append((1, 0, 0))
     pdcbfillColours.append((0.8, 0.474509803921569, 0.654901960784314))
-  elif propsDeveloped >= 150:
+  elif propsDeveloped >= 600:
     pdfillColours.append((0, 0, 0))
     pdcbfillColours.append((0, 0, 0))
   else:
@@ -135,13 +136,13 @@ for properties in neighbourhoodsProperties:
   elif devScore <= 1000 and devScore > 750:
     dsfillColours.append((0.901960784313726, 0.529411764705882, 0))
     dscbfillColours.append((0, 0.447058823529412, 0.698039215686275))
-  elif devScore <= 1500 and devScore > 1000:
+  elif devScore <= 2000 and devScore > 1000:
     dsfillColours.append((0.984313725490196, 0.282352941176471, 0))
     dscbfillColours.append((0.835294117647059, 0.368627450980392, 0))
-  elif devScore <= 2000 and devScore > 1500:
+  elif devScore <= 3000 and devScore > 2000:
     dsfillColours.append((1, 0, 0))
     dscbfillColours.append((0.8, 0.474509803921569, 0.654901960784314))
-  elif devScore >= 2500:
+  elif devScore >= 3000:
     dsfillColours.append((0, 0, 0))
     dscbfillColours.append((0, 0, 0))
   else:
