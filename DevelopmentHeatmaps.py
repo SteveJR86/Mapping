@@ -80,7 +80,7 @@ for properties in neighbourhoodsProperties:
   elif percentDeveloped <= 0.25 and percentDeveloped > 0.21:
     fillColours.append((1, 0, 0))
     cbfillColours.append((0.8, 0.474509803921569, 0.654901960784314))
-  elif percentUndeveloped >= 0.25:
+  elif percentDeveloped >= 0.25:
     fillColours.append((0, 0, 0))
     cbfillColours.append((0, 0, 0))
   else:
@@ -195,10 +195,10 @@ surface[0].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development ' + cit
 canvas[1].show_text('% Developed - ' + city)
 surface[1].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development ' + city + ' Wong Colour Scheme ' + today.strftime('%d-%b') + '.png')
 canvas[2].show_text('No. of Properties Developed - ' + city)
-surface[2].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development no of props' + city + ' ' + today.strftime('%d-%b') + '.png')
+surface[2].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development no of props ' + city + ' ' + today.strftime('%d-%b') + '.png')
 canvas[3].show_text('No. of Properties Developed - ' + city)
-surface[3].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development no of props' + city + ' Wong Colour Scheme ' + today.strftime('%d-%b') + '.png')
+surface[3].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development no of props ' + city + ' Wong Colour Scheme ' + today.strftime('%d-%b') + '.png')
 canvas[4].show_text('Property Development Score - ' + city)
-surface[4].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development property development score' + city + ' ' + today.strftime('%d-%b') + '.png')
+surface[4].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development property development score ' + city + ' ' + today.strftime('%d-%b') + '.png')
 canvas[5].show_text('Property Development Score - ' + city)
-surface[5].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development property development score' + city + ' Wong Colour Scheme ' + today.strftime('%d-%b') + '.png')
+surface[5].write_to_png(homedir + '/maps/DevelopmentHeatmaps/Development property development score ' + city + ' Wong Colour Scheme ' + today.strftime('%d-%b') + '.png')
