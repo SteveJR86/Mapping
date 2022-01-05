@@ -30,12 +30,13 @@ def main():
   users['Total']['FSA Unminted'] = 0
   users['Total']['Non-FSA Unminted'] = 0
   users['Total']['Owned By Others'] = 0
+  users['Total']['FSA Owned By Others'] = 0
   users['Total']['For Sale'] = 0
   users['Total']['Locked'] = 0
 
   homedir = os.path.expanduser('~')
   filepath = homedir + '/maps/NeighbourhoodMaps/'
-  configFilename = 'Blue Ridge Farm - Sheepminer - Coded - Sheet1'
+  configFilename = 'Bronxdale - Morecheese - Sheet1'
   configFile = filepath + '/ConfigFiles/' + configFilename + '.csv'
   filename = configFilename[:-9]
   with open(configFile, newline='') as csvfile:
@@ -60,6 +61,8 @@ def main():
           fsaColour = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
         elif row[2] == 'Owned by Others':
           ownedByOthers = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
+        elif row[2] == 'FSA Owned by Others':
+          FSAOwnedByOthers = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
         elif row[2] == 'For Sale by Others':
           forSaleColour = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
         elif row[2] == 'Locked':
@@ -109,13 +112,13 @@ def main():
     plotting.plotObject(canvas, mapFactor, neighbourhoodPoly, neighbourhoodPoly.bounds[0], neighbourhoodPoly.bounds[3])
   
   for num, prop in enumerate(props, start=1):
-    print(f'{((num/len(props))*100):.2f}% Complete')
+##    print(f'{((num/len(props))*100):.2f}% Complete')
     propPoly = upland.makePoly(prop['boundaries'])
     if mode == 3:
       propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
     if mode == 1 or mode == 2 or (mode == 3 and propDetails['full_address'].split(' ', 1)[1] == street.upper()):
-      users['Total']['Total Properties'] += 1        
-      if prop['status'] == 'Owned' :
+      users['Total']['Total Properties'] += 1
+      if prop['status'] == 'Owned' or prop['status'] == 'For sale':
         users['Total']['Total Owned Properties'] += 1
         if mode == 1 or mode ==2:
           propDetails = upland.getPropertyDetails(headers, prop['prop_id'])
@@ -132,29 +135,32 @@ def main():
             users[propDetails['owner_username']]['data']['Max Up2'] = max(users[propDetails['owner_username']]['data']['Max Up2'], propDetails['area'])
           users[propDetails['owner_username']]['data']['Total Price Paid'] += propDetails['last_purchased_price']
           fillColour = (users[propDetails['owner_username']]['colour'][0], users[propDetails['owner_username']]['colour'][1], users[propDetails['owner_username']]['colour'][2])
+        elif propDetails['labels']['fsa_allow'] == True:
+          users['Total']['FSA Owned By Others'] += 1
+          fillColour = (FSAOwnedByOthers[0], FSAOwnedByOthers[1], FSAOwnedByOthers[2])
         else:
           users['Total']['Owned By Others'] += 1
           fillColour = (ownedByOthers[0], ownedByOthers[1], ownedByOthers[2])
-      elif prop['status'] == 'For sale':
-        users['Total']['Total Owned Properties'] += 1
-        if mode ==1 or mode == 2:
-          propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
-        if propDetails['owner_username'] in users:
-          users[propDetails['owner_username']]['data']['Properties Owned'] += 1
-          users[propDetails['owner_username']]['data']['Total Up2'] += propDetails['area']
-          if users[propDetails['owner_username']]['data']['Min Up2'] == None:
-            users[propDetails['owner_username']]['data']['Min Up2'] = propDetails['area']
-          else:
-            users[propDetails['owner_username']]['data']['Min Up2'] = min(users[propDetails['owner_username']]['data']['Min Up2'], propDetails['area'])
-          if users[propDetails['owner_username']]['data']['Max Up2'] == None:
-            users[propDetails['owner_username']]['data']['Max Up2'] = propDetails['area']
-          else:
-            users[propDetails['owner_username']]['data']['Max Up2'] = max(users[propDetails['owner_username']]['data']['Max Up2'], propDetails['area'])
-          users[propDetails['owner_username']]['data']['Total Price Paid'] += propDetails['last_purchased_price']
-          fillColour = (users[propDetails['owner_username']]['colour'][0], users[propDetails['owner_username']]['colour'][1], users[propDetails['owner_username']]['colour'][2])
-        else:
-          users['Total']['For Sale'] += 1
-          fillColour = (forSaleColour[0], forSaleColour[1], forSaleColour[2])
+##      elif prop['status'] == 'For sale':
+##        users['Total']['Total Owned Properties'] += 1
+##        if mode ==1 or mode == 2:
+##          propDetails = json.loads(requests.get('https://api.upland.me/properties/' + str(prop['prop_id']), headers=headers).text)
+##        if propDetails['owner_username'] in users:
+##          users[propDetails['owner_username']]['data']['Properties Owned'] += 1
+##          users[propDetails['owner_username']]['data']['Total Up2'] += propDetails['area']
+##          if users[propDetails['owner_username']]['data']['Min Up2'] == None:
+##            users[propDetails['owner_username']]['data']['Min Up2'] = propDetails['area']
+##          else:
+##            users[propDetails['owner_username']]['data']['Min Up2'] = min(users[propDetails['owner_username']]['data']['Min Up2'], propDetails['area'])
+##          if users[propDetails['owner_username']]['data']['Max Up2'] == None:
+##            users[propDetails['owner_username']]['data']['Max Up2'] = propDetails['area']
+##          else:
+##            users[propDetails['owner_username']]['data']['Max Up2'] = max(users[propDetails['owner_username']]['data']['Max Up2'], propDetails['area'])
+##          users[propDetails['owner_username']]['data']['Total Price Paid'] += propDetails['last_purchased_price']
+##          fillColour = (users[propDetails['owner_username']]['colour'][0], users[propDetails['owner_username']]['colour'][1], users[propDetails['owner_username']]['colour'][2])
+##        else:
+##          users['Total']['For Sale'] += 1
+##          fillColour = (forSaleColour[0], forSaleColour[1], forSaleColour[2])
       elif prop['status'] == "Unlocked" and prop['labels']['fsa_allow'] == True:
         users['Total']['FSA Unminted'] += 1
         fillColour = (fsaColour[0], fsaColour[1], fsaColour[2])

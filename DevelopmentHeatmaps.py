@@ -43,13 +43,14 @@ for properties in neighbourhoodsProperties:
   propsDeveloped = 0
   devScore = 0
   for prop in properties:
-    if not len(prop['models']) == 0:
-      propsDeveloped += 1
-      try:
-        devScore += prop['models'][0]['options']['score']
-      except:
-        pass
-      
+    if prop['models']:
+      if prop['models'][0]['constructionStatus'] == 'completed':
+        propsDeveloped += 1
+        try:
+          devScore += prop['models'][0]['options']['score']
+        except:
+          pass
+
   print(propsDeveloped, devScore)
   try:
     percentDeveloped = propsDeveloped/len(properties)
@@ -180,7 +181,6 @@ keyFile = ["DevHeatmap-key.png",
            "pdCBDevHeatmap-key.png",
            "dsDevHeatmap-key.png",
            "dsCBDevHeatmap-key.png"]
-           
 
 for x in range(6):
   plotting.plotKey(canvas[x], surface[x], keyFile[x], keyPositions[city])

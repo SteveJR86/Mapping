@@ -17,14 +17,17 @@ for neighbourhood in neighbourhoods:
 
 for neighbourhoodID, details in tableData.items():
   props = upland.getNeighbourhoodProperties(headers, searchCity, details['neighbourhood name'])
+  print(len(props))
   props = props[0]
   tableData[neighbourhoodID]['data']['total properties'] = len(props)
   for prop in props:
-    if prop['labels']['fsa_allow']:
-      tableData[neighbourhoodID]['data']['fsa properties'] += 1
-    else:
-      tableData[neighbourhoodID]['data']['non-fsa properties'] += 1
-
+    try:
+      if prop['labels']['fsa_allow']:
+        tableData[neighbourhoodID]['data']['fsa properties'] += 1
+      else:
+        tableData[neighbourhoodID]['data']['non-fsa properties'] += 1
+    except:
+      print(prop)
 today = date.today()
 workbook = xlsxwriter.Workbook(homedir + '/maps/HeatmapData/' + searchCity + ' Pre-Release Data' + today.strftime('%d-%b') + '.xlsx')
 worksheet = workbook.add_worksheet()

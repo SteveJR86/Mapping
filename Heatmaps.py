@@ -26,7 +26,9 @@ keyPositions = {
   "Santa Clara": "TopRight",
   "Kansas": "BottomLeft",
   "Rutherford": "BottomLeft",
-  "New Orleans": "BottomRight"
+  "New Orleans": "BottomRight",
+  "Nashville": "TopRight",
+  "Bronx": "TopRight"
   }
 
 neighbourhoods = upland.getNeighbourhood(headers, city)
@@ -45,6 +47,7 @@ worksheet.write(0, 4, 'All % Minted')
 worksheet.write(0, 5, 'Non-FSA Properties')
 worksheet.write(0, 6, 'Non-FSA Minted Properties')
 worksheet.write(0, 7, 'Non-FSA % Minted')
+worksheet.write(0, 8, 'Total Area')
 
 for row, neighbourhood in enumerate(neighbourhoods, start=1):
   worksheet.write(row, 0, neighbourhood['name'])
@@ -61,12 +64,15 @@ totalNonFSAProps = 0
 totalNonFSAPropsMinted = 0
 
 for row, properties in enumerate(neighbourhoodsProperties, start=1):
+  totalArea = 0
   propsUnlocked = 0
   propsMinted = 0
   nonFSAProps = 0
   nonFSAPropsMinted = 0
   for prop in properties:
     totalProps += 1
+    propPoly = upland.makePoly(prop['boundaries'])
+    totalArea += propPoly.area
     if prop['status'] == 'Owned' or prop['status'] == 'For sale':
       propsUnlocked += 1
       propsMinted += 1
@@ -93,6 +99,8 @@ for row, properties in enumerate(neighbourhoodsProperties, start=1):
   except:
     percentNonFSASold = None
 
+  totalArea = (totalArea * 111139**2)/11.12252485
+  
   worksheet.write(row, 1, len(properties))
   worksheet.write(row, 2, propsUnlocked)
   worksheet.write(row, 3, propsMinted)
@@ -106,6 +114,7 @@ for row, properties in enumerate(neighbourhoodsProperties, start=1):
     worksheet.write(row, 7, nonFSAPropsMinted/nonFSAProps, percentage_format)
   except:
     worksheet.write(row, 7, '-', percentage_format)
+  worksheet.write(row, 8, totalArea)
 
   if percentSold == None:
     fillColours.append((1, 1, 1))
@@ -216,16 +225,16 @@ for x in range(4):
     keyFile = "CBHeatmap-key.png"
   plotting.plotKey(canvas[x], surface[x], keyFile, keyPositions[city])
   canvas[x].set_source_rgb(0, 0, 0)
-  canvas[x].set_font_size(100)
+  canvas[x].set_font_size(80)
   canvas[x].move_to(75, 75)
 
 
   
 canvas[0].show_text(city)
 surface[0].write_to_png(homedir + '/maps/Heatmaps/' + city + ' ' + today.strftime('%d-%b') + '.png')
-canvas[1].show_text(city)
+canvas[1].show_text(city + ' - Wong Colour Scheme')
 surface[1].write_to_png(homedir + '/maps/Heatmaps/' + city + ' Wong Colour Scheme ' + today.strftime('%d-%b') + '.png')
 canvas[2].show_text(city + ' (Non-FSA Only)')
 surface[2].write_to_png(homedir + '/maps/Heatmaps/' + city + ' Non-FSA ' + today.strftime('%d-%b') + '.png')
-canvas[3].show_text(city + ' (Non-FSA Only)')
+canvas[3].show_text(city + ' (Non-FSA Only) - Wong Colour Scheme')
 surface[3].write_to_png(homedir + '/maps/Heatmaps/' + city + ' Non-FSA Wong Colour Scheme ' + today.strftime('%d-%b') + '.png')

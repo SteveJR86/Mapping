@@ -22,7 +22,7 @@ def main():
   city = sys.argv[2]
 ##  neighbourhood = "alamo square"
 ##  city = "San Francisco"
-  filename = homedir + '/maps/NeighbourhoodDevelopment/' + neighbourhood + " - " + city + " - Building Progress"
+  filename = homedir + '/maps/TreasureHunt/Treasure Hunt Distances - ' + neighbourhood + " - " + city
   models = True
   
   props = upland.getNeighbourhoodProperties(headers, city, neighbourhood, models)
@@ -42,26 +42,17 @@ def main():
   score = 0
   for prop in props:
     propPoly = upland.makePoly(prop['boundaries'])
-    if prop['status'] == 'Owned':      
-      if len(prop['models']) == 0:
-        plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
-      elif prop['models'][0]['constructionStatus'] == 'completed':
-        plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (0, 1, 0.15))
-        builtProps += 1
-        score += prop['models'][0]['options']['score']
-      elif prop['models'][0]['constructionStatus'] == 'processing' or prop['models'][0]['constructionStatus'] == 'can-watch-ceremony':
-        plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 0))
-        inProgressProps += 1
-        score += prop['models'][0]['options']['score']
-    else:
-      plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
+    plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
+  plotting.plotCircle(canvas, surface, mapFactor, 10000, minLat, maxLong, (0, 0, 0, 0.1))
+  plotting.plotCircle(canvas, surface, mapFactor, 3000, minLat, maxLong, (0, 0, 0, 0.1))
+  plotting.plotCircle(canvas, surface, mapFactor, 1000, minLat, maxLong, (0, 0, 0, 0.1))
+  plotting.plotCircle(canvas, surface, mapFactor, 500, minLat, maxLong, (1, 0, 0, 0.4))
+  plotting.plotCircle(canvas, surface, mapFactor, 200, minLat, maxLong, (1, 0, 0, 0.6))
+  plotting.plotCircle(canvas, surface, mapFactor, 50, minLat, maxLong, (1, 0, 0, 0.8))
   canvas.set_font_size(100)
   canvas.move_to(75, 75)
-  canvas.show_text(f'{neighbourhood}, {city}: {(builtProps/len(props))*100:.0f}% Developed')
-  canvas.move_to(75, 160)
-  canvas.show_text(f'{builtProps} Completed, {inProgressProps} In Progress, "Score": {score}')
+  canvas.show_text(f'{neighbourhood}, {city}')
   today = date.today()
-  plotting.plotKey(canvas, surface, 'Dev-key.png', 'TopRight')
   surface.write_to_png(filename + ' ' + today.strftime('%d-%b') + '.png')
 
 if __name__ == '__main__':
