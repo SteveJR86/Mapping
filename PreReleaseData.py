@@ -17,7 +17,6 @@ for neighbourhood in neighbourhoods:
 
 for neighbourhoodID, details in tableData.items():
   props = upland.getNeighbourhoodProperties(headers, searchCity, details['neighbourhood name'])
-  print(len(props))
   props = props[0]
   tableData[neighbourhoodID]['data']['total properties'] = len(props)
   for prop in props:

@@ -27,6 +27,7 @@ def main():
   users['Total'] = {}
   users['Total']['Total Properties'] = 0
   users['Total']['Total Owned Properties'] = 0
+  users['Total']['Total Owned By Group'] = 0
   users['Total']['FSA Unminted'] = 0
   users['Total']['Non-FSA Unminted'] = 0
   users['Total']['Owned By Others'] = 0
@@ -36,7 +37,7 @@ def main():
 
   homedir = os.path.expanduser('~')
   filepath = homedir + '/maps/NeighbourhoodMaps/'
-  configFilename = 'Bronxdale - Morecheese - Sheet1'
+  configFilename = 'Strupwood - Sheet1'
   configFile = filepath + '/ConfigFiles/' + configFilename + '.csv'
   filename = configFilename[:-9]
   with open(configFile, newline='') as csvfile:
@@ -73,6 +74,8 @@ def main():
           users[username]['colour'] = [int(row[3][1:3], 16)/255, int(row[3][3:5], 16)/255, int(row[3][5:7], 16)/255]
           users[username]['data'] = {}
           users[username]['data']['Properties Owned'] = 0
+          users[username]['data']['Buildings In Progress'] = 0
+          users[username]['data']['Buildings Complete'] = 0
           users[username]['data']['Total Up2'] = 0
           users[username]['data']['% of Group Ownership'] = 0
           users[username]['data']['% of Neighbourhood Ownership'] = 0
@@ -123,8 +126,14 @@ def main():
         if mode == 1 or mode ==2:
           propDetails = upland.getPropertyDetails(headers, prop['prop_id'])
         if propDetails['owner_username'] in users:
+          users['Total']['Total Owned By Group'] += 1
           users[propDetails['owner_username']]['data']['Properties Owned'] += 1
           users[propDetails['owner_username']]['data']['Total Up2'] += propDetails['area']
+          if propDetails['building']:
+            if propDetails['building']['constructionStatus'] == 'processing':
+              users[propDetails['owner_username']]['data']['Buildings In Progress'] += 1
+            elif propDetails['building']['constructionStatus'] == 'completed' or propDetails['building']['constructionStatus'] == 'can-watch-ceremony':
+              users[propDetails['owner_username']]['data']['Buildings Complete'] += 1
           if users[propDetails['owner_username']]['data']['Min Up2'] == None:
             users[propDetails['owner_username']]['data']['Min Up2'] = propDetails['area']
           else:
@@ -185,7 +194,7 @@ def main():
 
   for user in users:
     if user != 'Total':
-      users[user]['data']['% of Group Ownership'] = users[user]['data']['Properties Owned']/users['Total']['Total Owned Properties']
+      users[user]['data']['% of Group Ownership'] = users[user]['data']['Properties Owned']/users['Total']['Total Owned By Group']
       users[user]['data']['% of Neighbourhood Ownership'] = users[user]['data']['Properties Owned']/users['Total']['Total Properties']
       if columnFlag:
         for num, field in enumerate(users[user]['data'], start=2):
@@ -197,9 +206,14 @@ def main():
       row += 1
   row += 1
 
+  worksheet.write(row , col, 'Group %')
+  worksheet.write(row , col + 1, users['Total']['Total Owned By Group']/users['Total']['Total Properties'])
+
+  row += 1
+  
   for num, field in enumerate(users['Total']):
-    worksheet.write(row, col + num + 1, field)
-    worksheet.write(row + 1, col + num + 1, users['Total'][field])
+    worksheet.write(row + num + 1, col, field)
+    worksheet.write(row + num + 1, col + 1, users['Total'][field])
 
   workbook.close()
 

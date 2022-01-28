@@ -22,7 +22,7 @@ def main():
   city = sys.argv[2]
 ##  neighbourhood = "Chabot Park"
 ##  city = "Oakland"
-  filename = homedir + '/maps/NeighbourhoodDevelopment/' + neighbourhood + " - " + city + " - Building Progress"
+  filename = homedir + '/maps/Blank Neighbourhoods/' + neighbourhood + " - " + city
   models = True
   
   props = upland.getNeighbourhoodProperties(headers, city, neighbourhood, models)
@@ -34,7 +34,6 @@ def main():
   mapFactor = canvas2[2]
   minLat = canvas2[3]
   maxLong = canvas2[4]
-  print(neighbourhoodPoly)
 
   plotting.plotObject(canvas, mapFactor, neighbourhoodPoly[0], minLat, maxLong)
 
@@ -43,7 +42,10 @@ def main():
   score = 0
   for prop in props:
     propPoly = upland.makePoly(prop['boundaries'])
-    plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
+    if prop['labels']['fsa_allow']:
+      plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (0.3, 0.3, 0.3))
+    else:
+      plotting.plotObject(canvas, mapFactor, propPoly, minLat, maxLong, (1, 1, 1))
   canvas.set_font_size(100)
   canvas.move_to(75, 75)
   canvas.show_text(f'{neighbourhood}, {city}')

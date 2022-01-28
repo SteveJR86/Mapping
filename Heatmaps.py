@@ -24,11 +24,12 @@ keyPositions = {
   "Chicago": "BottomLeft",
   "Cleveland": "TopLeft",
   "Santa Clara": "TopRight",
-  "Kansas": "BottomLeft",
+  "Kansas City": "BottomLeft",
   "Rutherford": "BottomLeft",
   "New Orleans": "BottomRight",
   "Nashville": "TopRight",
-  "Bronx": "TopRight"
+  "Bronx": "TopRight",
+  "Los Angeles": "BottomLeft"
   }
 
 neighbourhoods = upland.getNeighbourhood(headers, city)

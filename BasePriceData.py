@@ -57,7 +57,7 @@ def main():
     
 def calculateBasePrice(headers, prop):
   try:
-    price = (prop['yield_per_hour']*50000)/prop['area']
+    price = (prop['yield_per_hour']*59524)/prop['area']
   except:
     price = 0
   collectionLevels = []
