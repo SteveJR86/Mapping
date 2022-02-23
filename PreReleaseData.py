@@ -28,7 +28,7 @@ for neighbourhoodID, details in tableData.items():
     except:
       print(prop)
 today = date.today()
-workbook = xlsxwriter.Workbook(homedir + '/maps/HeatmapData/' + searchCity + ' Pre-Release Data' + today.strftime('%d-%b') + '.xlsx')
+workbook = xlsxwriter.Workbook(homedir + '/maps/HeatmapData/' + searchCity + ' Pre-Release Data ' + today.strftime('%d-%b') + '.xlsx')
 worksheet = workbook.add_worksheet()
 row = 0
 col = 0

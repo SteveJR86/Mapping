@@ -14,15 +14,21 @@ def main():
   neighbourhood = sys.argv[1]
   city = sys.argv[2]
   keyPos = sys.argv[3]
+  pngOrPdf = sys.argv[4]
+  
 ##  neighbourhood = "The Oaks"
 ##  city = "Bakersfield"
-  filename = homedir + '/maps/NeighbourhoodDevelopment/' + neighbourhood + " - " + city + " - Building Progress"
+  today = date.today()
+  filename = homedir + '/maps/NeighbourhoodDevelopment/' + neighbourhood + " - " + city + " - Building Progress " + today.strftime('%d-%b')
   models = True
   
   props = upland.getNeighbourhoodProperties(headers, city, neighbourhood, models)
   props = props[0]
   neighbourhoodPoly = upland.getNeighbourhoodPoly(headers, city, neighbourhood)
-  canvas2 = plotting.makeCanvas(neighbourhoodPoly)
+  if pngOrPdf == "pdf":
+    canvas2 = plotting.makeCanvas(neighbourhoodPoly, pdf = True, path = filename)
+  else:
+    canvas2 = plotting.makeCanvas(neighbourhoodPoly)
   surface = canvas2[0]
   canvas = canvas2[1]
   mapFactor = canvas2[2]
@@ -67,9 +73,8 @@ def main():
   canvas.show_text(f'{neighbourhood}, {city}: {(builtProps/len(props))*100:.0f}% Developed')
   canvas.move_to(75, 165)
   canvas.show_text(f'{builtProps} Completed, {inProgressProps} In Progress')
-  today = date.today()
   plotting.plotKey(canvas, surface, 'Dev-key.png', keyPos)
-  surface.write_to_png(filename + ' ' + today.strftime('%d-%b') + '.png')
-
+  if not pngOrPdf == "pdf":
+    surface.write_to_png(filename + '.png')
 if __name__ == '__main__':
     main()

@@ -21,11 +21,12 @@ def main():
     props = upland.getNeighbourhoodProperties(headers, searchCity, details['neighbourhood name'])
     if not len(props) == 0:
       props = props[0]
-      for prop in props:
-        if not prop['status'] == 'Locked':
-          break
-      propDetails = upland.getPropertyDetails(headers, prop['prop_id'])
-      tableData[neighbourhoodID]['data']['base price'] = calculateBasePrice(headers, propDetails)
+      if not len(props) == 0:
+        for prop in props:
+          if not prop['status'] == 'Locked':
+            break
+        propDetails = upland.getPropertyDetails(headers, prop['prop_id'])
+        tableData[neighbourhoodID]['data']['base price'] = calculateBasePrice(headers, propDetails)
 
   today = date.today()
   workbook = xlsxwriter.Workbook(homedir + '/maps/HeatmapData/' + searchCity + ' Base Prices.xlsx')
@@ -63,7 +64,8 @@ def calculateBasePrice(headers, prop):
   collectionLevels = []
   collections = upland.matchCollections(headers, prop['prop_id'])
   for collection in collections:
-    collectionLevels.append(collection['category'])
+    if not collection == "King of the Street" and collection == "Newbie" and collection == "City Pro":
+      collectionLevels.append(collection['category'])
   if collectionLevels:
     if max(collectionLevels) == 5:
       basePrice = price/21
