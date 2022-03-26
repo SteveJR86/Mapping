@@ -37,7 +37,7 @@ def main():
 
   homedir = os.path.expanduser('~')
   filepath = homedir + '/maps/NeighbourhoodMaps/'
-  configFilename = 'Bronxdale - Morecheese - Sheet1'
+  configFilename = 'Century Heights - Skru - Sheet1'
   configFile = filepath + '/ConfigFiles/' + configFilename + '.csv'
   filename = configFilename[:-9]
   with open(configFile, newline='') as csvfile:
